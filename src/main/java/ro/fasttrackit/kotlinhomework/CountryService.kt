@@ -9,39 +9,39 @@ class CountryService(private val countries: List<Country>) {
 
     fun getAllCountries(): List<Country> = countries
 
-    fun countryNames(): List<String> = countries.map { country -> country.name }
+    fun countryNames(): List<String> = countries.map { it.name }
 
     fun countryCapital(countryName: String): String? = countries
-            .find { country -> country == getCountryByName(countryName) }?.capital
+            .find { it == getCountryByName(countryName) }?.capital
 
     fun countryPopulation(countryName: String): Long? = countries
-            .find { country -> country == getCountryByName(countryName) }?.population
+            .find { it == getCountryByName(countryName) }?.population
 
-    fun continentCountries(continent: String) = countries.filter { country -> isFromContinent(country, continent) }
+    fun continentCountries(continent: String) = countries.filter { isFromContinent(it, continent) }
 
     fun countryNeighbours(countryName: String): List<String>? = countries
-            .find { country -> country == getCountryByName(countryName) }?.neighbours
+            .find { it == getCountryByName(countryName) }?.neighbours
 
     fun continentCountriesWithMinimumPopulation(continent: String, minimumPopulation: Long) = countries
-            .filter { country -> isFromContinent(country, continent) }
-            .filter { country -> country.population >= minimumPopulation }
+            .filter { isFromContinent(it, continent) }
+            .filter { it.population >= minimumPopulation }
 
     fun continentCountriesSortedByPopulation(continent: String) = countries
-            .filter { country -> isFromContinent(country, continent) }
-            .sortedBy { country -> country.population }
+            .filter { isFromContinent(it, continent) }
+            .sortedBy { it.population }
 
     fun continentCountriesSortedByArea(continent: String) = countries
-            .filter { country -> isFromContinent(country, continent) }
-            .sortedBy { country -> country.area }
+            .filter { isFromContinent(it, continent) }
+            .sortedBy { it.area }
 
     fun countryAndPopulationMap(countryName: String): Map<String, Long> = countries
-            .filter { country -> isCountry(country, countryName) }
+            .filter { isCountry(it, countryName) }
             .associate { it.name to it.population }
 
     fun countriesAndPopulationMap(): Map<String, Long> = countries.associate { it.name to it.population }
 
     fun countriesFromContinentMap(continent: String): Map<String, List<Country>> = countries
-            .filter { country -> isFromContinent(country, continent) }
+            .filter { isFromContinent(it, continent) }
             .groupBy { it.continent }
 
     fun countriesToContinentsMap(): Map<String, List<Country>> = countries.groupBy { it.continent }
@@ -50,9 +50,8 @@ class CountryService(private val countries: List<Country>) {
             .sortedBy { it.population }
             .groupBy { it.continent }
 
-
     fun countriesFromContinentSortedByPopulationMap(continent: String): Map<String, List<Country>> = countries
-            .filter { country -> isFromContinent(country, continent) }
+            .filter { isFromContinent(it, continent) }
             .sortedBy { it.population }
             .groupBy { it.continent }
 
@@ -64,5 +63,5 @@ class CountryService(private val countries: List<Country>) {
 
     private fun isCountry(country: Country, countryName: String) = country.name.equals(countryName, ignoreCase = true)
 
-    private fun getCountryByName(countryName: String): Country = countries.first { country -> country.name.equals(countryName, ignoreCase = true) }
+    private fun getCountryByName(countryName: String): Country = countries.first { it.name.equals(countryName, ignoreCase = true) }
 }

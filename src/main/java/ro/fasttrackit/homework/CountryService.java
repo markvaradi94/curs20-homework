@@ -29,14 +29,14 @@ public class CountryService {
         return countries.stream()
                 .map(country -> findCountryByName(countryName).getCapital())
                 .findAny()
-                .orElseThrow();
+                .orElse(Optional.empty().toString());
     }
 
     public Long populationOfCountry(String countryName) {
         return countries.stream()
                 .map(country -> findCountryByName(countryName).getPopulation())
                 .findAny()
-                .orElseThrow();
+                .orElse(-1L);
     }
 
     public List<Country> countriesOnContinent(String continent) {
@@ -49,7 +49,7 @@ public class CountryService {
         return countries.stream()
                 .map(country -> findCountryByName(countryName).getNeighbours())
                 .findAny()
-                .orElseThrow();
+                .orElseGet(ArrayList::new);
     }
 
     public List<Country> continentCountriesWithMinimumPopulation(String continent, Long minPopulation) {
@@ -123,7 +123,7 @@ public class CountryService {
         return countries.stream()
                 .filter(country -> country.getName().equalsIgnoreCase(countryName))
                 .findAny()
-                .orElseThrow();
+                .orElse(new Country("default", "default", 0L, 0L, "default", List.of()));
     }
 
 }
